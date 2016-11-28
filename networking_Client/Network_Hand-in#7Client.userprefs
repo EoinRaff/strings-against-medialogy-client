@@ -1,0 +1,12 @@
+﻿<Properties StartupItem="Network_Hand-in#7Client/Network_Hand-in#7Client.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Network_Hand-in#7Client/Program.cs">
+    <Files>
+      <File FileName="Network_Hand-in#7Client/Program.cs" Line="44" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

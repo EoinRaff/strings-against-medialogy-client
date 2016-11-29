@@ -39,6 +39,8 @@ namespace TcpEchoClient
 		
 			while (true)
 			{
+
+				writer.WriteLine(username);
                 string playerRole = reader.ReadLine();
                 if (playerRole == "Judge")
                 {

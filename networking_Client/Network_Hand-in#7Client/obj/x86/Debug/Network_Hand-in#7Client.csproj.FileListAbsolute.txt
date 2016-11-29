@@ -1,0 +1,4 @@
+C:\Users\eoinr_000\Documents\GitHub\strings-against-medialogy-client\networking_Client\Network_Hand-in#7Client\obj\x86\Debug\Network_Hand-in#7Client.exe
+C:\Users\eoinr_000\Documents\GitHub\strings-against-medialogy-client\networking_Client\Network_Hand-in#7Client\bin\Debug\Network_Hand-in#7Client.exe
+C:\Users\eoinr_000\Documents\GitHub\strings-against-medialogy-client\networking_Client\Network_Hand-in#7Client\bin\Debug\Network_Hand-in#7Client.pdb
+C:\Users\eoinr_000\Documents\GitHub\strings-against-medialogy-client\networking_Client\Network_Hand-in#7Client\obj\x86\Debug\Network_Hand-in#7Client.pdb

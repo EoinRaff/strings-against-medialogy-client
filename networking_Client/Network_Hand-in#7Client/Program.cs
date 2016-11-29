@@ -7,6 +7,7 @@ namespace TcpEchoClient
 {
 	class TcpEchoClient
 	{
+        static public bool isJudge = false;
 
 		static void Main(string[] args)
 		{
@@ -38,19 +39,37 @@ namespace TcpEchoClient
 		
 			while (true)
 			{
+
 				writer.WriteLine(username);
-				Console.Write("Enter to send: ");
-				string lineToSend = Console.ReadLine();
-				Console.WriteLine("Sending to server: " + lineToSend);
-				writer.WriteLine(lineToSend);
-				string lineReceived = reader.ReadLine();
-				Console.WriteLine("Received from server: " + lineReceived);
-
-
-
+                string playerRole = reader.ReadLine();
+                if (playerRole == "Judge")
+                {
+                    Console.Clear();
+                    Console.WriteLine("You are now the Judge! Waiting for other players...");
+                    if (reader.ReadLine() == "Ready")
+                    {
+                        Console.WriteLine("Here are the responses. Which was funniest?");
+                        //displayAnswers()
+                    }
+                }
+                else
+                {
+                    Console.Write("Enter to send: ");
+                    string lineToSend = Console.ReadLine();
+                    Console.WriteLine("Sending to server: " + lineToSend);
+                    writer.WriteLine(lineToSend);
+                    string lineReceived = reader.ReadLine();
+                    Console.WriteLine("Received from server: " + lineReceived);
+                }
 
 			}
 		}
+        static void displayAnswers()
+        {
+            //this should contain the code which will show the Judge the answers and let them vote
+            //it should recieve input from the server after the other players have sent their answers.
+            //Then it should send the client a respones
+        }
 
 
 	

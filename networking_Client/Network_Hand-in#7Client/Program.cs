@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Collections.Generic;
 
 namespace TcpEchoClient
 {
@@ -35,23 +36,60 @@ namespace TcpEchoClient
 			NetworkStream stream = client.GetStream();
 			StreamReader reader = new StreamReader(stream);
 			StreamWriter writer = new StreamWriter(stream) { AutoFlush = true };
-		
+
+			Console.Clear ();
+
+			Console.WriteLine ("Hello! Welcome to Strings Against Medialogy.");
+
+			Console.Write("Press [p] to join game\n");
+			Console.Write("Press [x] to exit game\n");
+
+			string lineToSend = Console.ReadLine();
+			writer.WriteLine(lineToSend);
+			Console.Clear ();
+
 			while (true)
 			{
-				Console.Write("Enter to send: ");
-				string lineToSend = Console.ReadLine();
-				Console.WriteLine("Sending to server: " + lineToSend);
-				writer.WriteLine(lineToSend);
-				string lineReceived = reader.ReadLine();
-				Console.WriteLine("Received from server: " + lineReceived);
+				switch (lineToSend) {
+
+				case "p":
+
+				
+					//string lineReceived = reader.ReadLine ();
+					//Console.WriteLine (lineReceived);
+				//	Console.WriteLine (" ");
+					Console.WriteLine ("Your hand of strings have been dealt \n Choose the string you find the most suitable \n for the missing part in the following statement: \n \n");
+
+					string lineReceived = reader.ReadLine();
+					lineReceived = reader.ReadLine();
+					List<string> yourHandOfCards = new List<string> (lineReceived.Split ('.'));
+					yourHandOfCards.ForEach (Console.WriteLine);
+					//lineToSend = Console.ReadLine();
+					//writer.WriteLine(lineToSend);
+
+					Console.WriteLine ("Press [1] to choose the first statement");
+					Console.WriteLine ("Press [2] to choose the second"); 
+					Console.WriteLine ("Press [3] to choose the third"); 
+					Console.WriteLine ("Press [4] to choose the fourth");
+					Console.WriteLine ("Press [5] to choose the fifth"); 
+
+
+					lineToSend = Console.ReadLine();
+					writer.WriteLine(lineToSend);
+
+					break;
+
+				case "x":
 
 
 
+					break;
+				}
 
 			}
 		}
-
-
-	
 	}
 }
+
+
+

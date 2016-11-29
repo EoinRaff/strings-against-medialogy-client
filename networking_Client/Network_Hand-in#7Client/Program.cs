@@ -38,6 +38,7 @@ namespace TcpEchoClient
 		
 			while (true)
 			{
+				writer.WriteLine(username);
 				Console.Write("Enter to send: ");
 				string lineToSend = Console.ReadLine();
 				Console.WriteLine("Sending to server: " + lineToSend);

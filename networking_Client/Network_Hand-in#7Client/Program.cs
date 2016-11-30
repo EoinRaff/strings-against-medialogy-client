@@ -8,6 +8,7 @@ namespace TcpEchoClient
 {
 	class TcpEchoClient
 	{
+        static public bool isJudge = false;
 
 		static void Main(string[] args)
 		{
@@ -54,11 +55,34 @@ namespace TcpEchoClient
 
 				case "p":
 
-				
-					//string lineReceived = reader.ReadLine ();
-					//Console.WriteLine (lineReceived);
-				//	Console.WriteLine (" ");
-					Console.WriteLine ("Your hand of strings have been dealt \n Choose the string you find the most suitable \n for the missing part in the following statement: \n \n");
+                        ////////////////////////////////////////////////////
+                        /*
+                        writer.WriteLine(username);
+                        string playerRole = reader.ReadLine();
+                        if (playerRole == "Judge")
+                        {
+                            Console.Clear();
+                            Console.WriteLine("You are now the Judge! Waiting for other players...");
+                            if (reader.ReadLine() == "Ready")
+                            {
+                                Console.WriteLine("Here are the responses. Which was funniest?");
+                                //displayAnswers()
+                            }
+                        }
+                        else
+                        {
+                            Console.Write("Enter to send: ");
+                            string lineToSend = Console.ReadLine();
+                            Console.WriteLine("Sending to server: " + lineToSend);
+                            writer.WriteLine(lineToSend);
+                            string lineReceived = reader.ReadLine();
+                            Console.WriteLine("Received from server: " + lineReceived);
+                        }*/
+            ////////////////////////////////////////////////////	
+            //string lineReceived = reader.ReadLine ();
+            //Console.WriteLine (lineReceived);
+            //	Console.WriteLine (" ");
+            Console.WriteLine ("Your hand of strings have been dealt \n Choose the string you find the most suitable \n for the missing part in the following statement: \n \n");
 
 					string lineReceived = reader.ReadLine();
 					lineReceived = reader.ReadLine();
@@ -77,19 +101,24 @@ namespace TcpEchoClient
 					lineToSend = Console.ReadLine();
 					writer.WriteLine(lineToSend);
 
-					break;
 
+					break;
 				case "x":
-
-
-
+                        
 					break;
-				}
+				}   //end switch statement
+			}   //end while loop
+		}   //end main()
+        static void displayAnswers()
+        {
+            //this should contain the code which will show the Judge the answers and let them vote
+            //it should recieve input from the server after the other players have sent their answers.
+            //Then it should send the client a respones
+        }   //end displayAnswers()
+    }   //end class
+}   //end namespace
 
-			}
-		}
-	}
-}
+
 
 
 

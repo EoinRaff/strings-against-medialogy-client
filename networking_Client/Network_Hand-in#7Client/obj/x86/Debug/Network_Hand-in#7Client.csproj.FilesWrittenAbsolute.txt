@@ -8,3 +8,8 @@
 /Users/adam/strings-against-medialogy-client/networking_Client/Network_Hand-in#7Client/bin/Debug/Network_Hand-in#7Client.exe
 /Users/adam/strings-against-medialogy-client/networking_Client/Network_Hand-in#7Client/obj/x86/Debug/Network_Hand-in#7Client.exe
 /Users/adam/strings-against-medialogy-client/networking_Client/Network_Hand-in#7Client/obj/x86/Debug/Network_Hand-in#7Client.exe.mdb
+/Users/nina-franziskahelmichchristiansen/Documents/Medialogy/strings-against-medialogy-client/networking_Client/Network_Hand-in#7Client/obj/x86/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/Users/nina-franziskahelmichchristiansen/Documents/Medialogy/strings-against-medialogy-client/networking_Client/Network_Hand-in#7Client/obj/x86/Debug/Network_Hand-in#7Client.exe
+/Users/nina-franziskahelmichchristiansen/Documents/Medialogy/strings-against-medialogy-client/networking_Client/Network_Hand-in#7Client/obj/x86/Debug/Network_Hand-in#7Client.exe.mdb
+/Users/nina-franziskahelmichchristiansen/Documents/Medialogy/strings-against-medialogy-client/networking_Client/Network_Hand-in#7Client/bin/Debug/Network_Hand-in#7Client.exe.mdb
+/Users/nina-franziskahelmichchristiansen/Documents/Medialogy/strings-against-medialogy-client/networking_Client/Network_Hand-in#7Client/bin/Debug/Network_Hand-in#7Client.exe

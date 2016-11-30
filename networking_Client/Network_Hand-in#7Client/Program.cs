@@ -9,6 +9,7 @@ namespace TcpEchoClient
     class TcpEchoClient
     {
         static public bool isJudge = false;
+        static public bool readyToPlay = false;
 
         static void Main(string[] args)
         {
@@ -42,7 +43,17 @@ namespace TcpEchoClient
             StreamWriter writer = new StreamWriter(stream) { AutoFlush = true };
 
             Console.Clear();
-            writer.WriteLine(username);
+            writer.WriteLine(username); //send username to server
+            while (!readyToPlay)
+            {
+                string serverMessage = reader.ReadLine();
+                if (serverMessage=="Ready!")
+                {
+                    readyToPlay = true;
+                }
+                Console.Clear();
+                Console.WriteLine(serverMessage);
+            }
             Console.WriteLine("Hello! Welcome to Strings Against Medialogy.");
 
             Console.Write("Press [p] to join game\n");
@@ -83,10 +94,10 @@ namespace TcpEchoClient
                             Console.WriteLine("Received from server: " + lineReceived);
                         }*/
                         ////////////////////////////////////////////////////	
-
-                        Console.WriteLine("Your hand of strings have been dealt \n Choose the string you find the most suitable \n for the missing part in the following statement: \n \n");
-
                         string lineReceived = reader.ReadLine();
+                        Console.WriteLine("Your hand of strings have been dealt \n Choose the string you find the most suitable \n for the missing part in the following statement: \n{0} \n", lineReceived);
+
+                        
                         lineReceived = reader.ReadLine();
                         List<string> yourHandOfCards = new List<string>(lineReceived.Split('.'));
 

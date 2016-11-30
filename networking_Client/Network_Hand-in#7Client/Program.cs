@@ -71,46 +71,85 @@ namespace TcpEchoClient
                     case "p":
 
                         ////////////////////////////////////////////////////
+                        //Recieve player role from the server
+                        //////////////////////////////////////////////////
                         /*
-                        writer.WriteLine(username);
                         string playerRole = reader.ReadLine();
-                        if (playerRole == "Judge")
+                        Console.WriteLine("Your role this turn is: {0}", playerRole);
+                        if (playerRole == "True")
                         {
                             Console.Clear();
                             Console.WriteLine("You are now the Judge! Waiting for other players...");
+                            
                             if (reader.ReadLine() == "Ready")
                             {
                                 Console.WriteLine("Here are the responses. Which was funniest?");
                                 //displayAnswers()
                             }
+                            
                         }
                         else
                         {
-                            Console.Write("Enter to send: ");
-                            string lineToSend = Console.ReadLine();
-                            Console.WriteLine("Sending to server: " + lineToSend);
-                            writer.WriteLine(lineToSend);
                             string lineReceived = reader.ReadLine();
-                            Console.WriteLine("Received from server: " + lineReceived);
-                        }*/
-                        ////////////////////////////////////////////////////	
-                        string lineReceived = reader.ReadLine();
-                        Console.WriteLine("Your hand of strings have been dealt \n Choose the string you find the most suitable \n for the missing part in the following statement: \n{0} \n", lineReceived);
+                            Console.WriteLine("Your hand of strings have been dealt \n Choose the string you find the most suitable \n for the missing part in the following statement: \n{0} \n", lineReceived);
 
-                        
-                        lineReceived = reader.ReadLine();
-                        List<string> yourHandOfCards = new List<string>(lineReceived.Split('.'));
+
+                            lineReceived = reader.ReadLine();
+                            List<string> yourHandOfCards = new List<string>(lineReceived.Split('.'));
+
+                            for (int i = 0; i < 5; i++)
+                            {
+                                //Console.WriteLine("{0}: {1}", i + 1, yourHandOfCards[i]);
+                            }
+
+                            lineToSend = Console.ReadLine();
+
+                            writer.WriteLine(lineToSend);
+                        }*/
+                        ////////////////////////////////////////////////////
+                        //This is a duplicate of the code above. When Judge is implemented it should occur in the if statement above
+                        ///////////////////////////////////////	
+                        string questionString = reader.ReadLine();
+                        Console.WriteLine("Your hand of strings have been dealt \n Choose the string you find the most suitable \n for the missing part in the following statement: \n{0} \n", questionString);
+
+
+                        string answerString = reader.ReadLine();
+                        List<string> yourHandOfCards = new List<string>(answerString.Split('.'));
 
                         for (int i = 0; i < 5; i++)
                         {
                             Console.WriteLine("{0}: {1}", i + 1, yourHandOfCards[i]);
                         }
+                        //needs to input 1, 2, 3, 4 or 5
+                        string answerChoice = Console.ReadLine();
+                        int n;
+                        bool validInput = false;
+                        while (!validInput)
+                        {
+                            if (int.TryParse(answerChoice, out n))
+                            {
+                                if (n > 0 && n < 6)
+                                {
+                                    validInput = true;
+                                    lineToSend = yourHandOfCards[n - 1];
+                                    //remove this card from your hand here
+                                }
+                            }
+                            else
+                            {
+                                Console.Clear();
+                                Console.WriteLine("try again");
+                                Console.WriteLine("Question: {0}", questionString);
+                                for (int i = 0; i < 5; i++)
+                                {
+                                    Console.WriteLine("{0}: {1}", i + 1, yourHandOfCards[i]);
+                                }
 
-                        lineToSend = Console.ReadLine();
+                            }
+                        }
+ 
 
                         writer.WriteLine(lineToSend);
-
-
                         break;
                     case "x":
 

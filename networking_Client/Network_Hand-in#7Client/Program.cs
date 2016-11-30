@@ -10,12 +10,13 @@ namespace TcpEchoClient
     {
         static public bool isJudge = false;
         static public bool readyToPlay = false;
+        static public string username;
 
         static void Main(string[] args)
         {
             string selection = "";
 
-            string username = "";
+            username = "";
             string ip = "";
             int port;
 
@@ -37,7 +38,7 @@ namespace TcpEchoClient
 			Console.WriteLine ("Connecting to server: " + ip + " on port: " + port);
             */
 
-            TcpClient client = new TcpClient("192.168.43.29", 1234);
+            TcpClient client = new TcpClient("192.168.43.134", 1234);
             NetworkStream stream = client.GetStream();
             StreamReader reader = new StreamReader(stream);
             StreamWriter writer = new StreamWriter(stream) { AutoFlush = true };
@@ -69,87 +70,71 @@ namespace TcpEchoClient
                 {
 
                     case "p":
+                        string Judge = reader.ReadLine();
+                        string questionString = reader.ReadLine();
+                        string answerString = reader.ReadLine();
 
-                        ////////////////////////////////////////////////////
-                        //Recieve player role from the server
-                        //////////////////////////////////////////////////
-                        /*
-                        string playerRole = reader.ReadLine();
-                        Console.WriteLine("Your role this turn is: {0}", playerRole);
-                        if (playerRole == "True")
+                        Console.WriteLine("The Judge this turn is: {0}", Judge);
+                        if (Judge == username)
                         {
                             Console.Clear();
-                            Console.WriteLine("You are now the Judge! Waiting for other players...");
-                            
+                            Console.WriteLine("You are now the Judge!\nWaiting for other players to choose their answers.");
+
+                            /*
                             if (reader.ReadLine() == "Ready")
                             {
-                                Console.WriteLine("Here are the responses. Which was funniest?");
-                                //displayAnswers()
-                            }
-                            
+                                Console.WriteLine("Judge ready");
+                            } */             
                         }
                         else
                         {
-                            string lineReceived = reader.ReadLine();
-                            Console.WriteLine("Your hand of strings have been dealt \n Choose the string you find the most suitable \n for the missing part in the following statement: \n{0} \n", lineReceived);
 
-
-                            lineReceived = reader.ReadLine();
-                            List<string> yourHandOfCards = new List<string>(lineReceived.Split('.'));
+                            Console.WriteLine("Your hand of strings have been dealt \n Choose the string you find the most suitable \n for the missing part in the following statement: \n{0} \n", questionString);
+                            List<string> yourHandOfCards = new List<string>(answerString.Split('.'));
 
                             for (int i = 0; i < 5; i++)
                             {
-                                //Console.WriteLine("{0}: {1}", i + 1, yourHandOfCards[i]);
+                                Console.WriteLine("{0}: {1}", i + 1, yourHandOfCards[i]);
                             }
-
-                            lineToSend = Console.ReadLine();
-
-                            writer.WriteLine(lineToSend);
-                        }*/
-                        ////////////////////////////////////////////////////
-                        //This is a duplicate of the code above. When Judge is implemented it should occur in the if statement above
-                        ///////////////////////////////////////	
-                        string questionString = reader.ReadLine();
-                        Console.WriteLine("Your hand of strings have been dealt \n Choose the string you find the most suitable \n for the missing part in the following statement: \n{0} \n", questionString);
-
-
-                        string answerString = reader.ReadLine();
-                        List<string> yourHandOfCards = new List<string>(answerString.Split('.'));
-
-                        for (int i = 0; i < 5; i++)
-                        {
-                            Console.WriteLine("{0}: {1}", i + 1, yourHandOfCards[i]);
-                        }
-                        //needs to input 1, 2, 3, 4 or 5
-                        string answerChoice = Console.ReadLine();
-                        int n;
-                        bool validInput = false;
-                        while (!validInput)
-                        {
-                            if (int.TryParse(answerChoice, out n))
+                            //needs to input 1, 2, 3, 4 or 5
+                            int n;
+                            bool validInput = false;
+                            while (!validInput)
                             {
-                                if (n > 0 && n < 6)
+                                if (int.TryParse(Console.ReadLine(), out n))
                                 {
+                                    Console.Clear();
                                     validInput = true;
                                     lineToSend = yourHandOfCards[n - 1];
-                                    //remove this card from your hand here
+                                    writer.WriteLine(lineToSend);
+                                    Console.WriteLine("Question: {0} \nYour answer:{1}", questionString, yourHandOfCards[n - 1]);
+                                    Console.WriteLine("Waiting for all players to respond");
+
                                 }
-                            }
-                            else
-                            {
-                                Console.Clear();
-                                Console.WriteLine("try again");
-                                Console.WriteLine("Question: {0}", questionString);
-                                for (int i = 0; i < 5; i++)
+                                else
                                 {
-                                    Console.WriteLine("{0}: {1}", i + 1, yourHandOfCards[i]);
+                                    Console.Clear();
+                                    Console.WriteLine("try again");
+                                    Console.WriteLine("Question: {0}", questionString);
+                                    for (int i = 0; i < 5; i++)
+                                    {
+                                        Console.WriteLine("{0}: {1}", i + 1, yourHandOfCards[i]);
+                                    }
+                                }   //end if/else parse
+                            }   //end while validInput
+                            /*
+                            while (true)
+                            {
+                                string serverMessage = reader.ReadLine();
+                                if (reader.ReadLine() == "Ready")
+                                {
+                                    Console.WriteLine("{0} ready", username);
+                                    break;
                                 }
-
                             }
-                        }
- 
-
-                        writer.WriteLine(lineToSend);
+                            Console.WriteLine("Broke and infinite loop, bitches");
+                            */
+                        }//after if/else Judge
                         break;
                     case "x":
 

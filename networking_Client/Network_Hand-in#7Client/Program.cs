@@ -108,7 +108,6 @@ namespace TcpEchoClient
                             {
                                 Console.WriteLine("{0}: {1}", i + 1, yourHandOfCards[i]);
                             }
-                            //needs to input 1, 2, 3, 4 or 5
                             int n;
                             bool validInput = false;
                             while (!validInput)
@@ -145,7 +144,64 @@ namespace TcpEchoClient
                                 }   //end if/else parse
                             }   //end while validInput
                         }//after if/else Judge
-                        Console.WriteLine("Answers should be displayed here");
+                        Console.Clear();
+                        Console.WriteLine("Question: {0}: ", questionString);
+                        Console.WriteLine("Answers:");
+
+                        string judgeAnswersString = reader.ReadLine();
+                        List<string> judgeAnswersList = new List<string>(judgeAnswersString.Split('.'));
+                        for (int i = 0; i < judgeAnswersList.Count - 1; i++)
+                        {
+                            Console.WriteLine("{0}: {1}", i + 1, judgeAnswersList[i]);
+                        }
+
+                        //readyToContinue = false;
+
+                        if (username == Judge)
+                        {
+                            Console.WriteLine("Choose the winner...");
+                            int n;
+                            bool validInput = false;
+                            while (!validInput)
+                            {
+                                if (int.TryParse(Console.ReadLine(), out n))
+                                {
+                                    Console.Clear();
+                                    validInput = true;
+                                    lineToSend = judgeAnswersList[n - 1];
+                                    writer.WriteLine(lineToSend); //send answer to server
+                                    Console.WriteLine("Question: {0} \nThe winner:{1}", questionString, judgeAnswersList[n - 1]);
+                                    //while (!readyToContinue)
+                                    //{
+                                    //    string serverMessage = reader.ReadLine();
+                                    //    if (serverMessage == "Ready!")
+                                    //    {
+                                    //        readyToContinue = true;
+                                    //        Console.WriteLine(serverMessage);
+                                    //    }
+                                    //}// ready to contine = true
+                                    Console.Clear();
+                                    Console.WriteLine("Client ready to continue");
+                                }
+                                else
+                                {
+                                    Console.Clear();
+                                    Console.WriteLine("try again");
+                                    Console.WriteLine("Question: {0}", questionString);
+                                    for (int i = 0; i < judgeAnswersList.Count - 1; i++)
+                                    {
+                                        Console.WriteLine("{0}: {1}", i + 1, judgeAnswersList[i]);
+                                    }
+                                }   //end if/else parse
+                            }   //end while validInput
+                        } // end if judge
+                        else
+                        {
+                            writer.WriteLine("waiting on judge");
+                        }
+
+
+
                         break;
                     case "x":
 

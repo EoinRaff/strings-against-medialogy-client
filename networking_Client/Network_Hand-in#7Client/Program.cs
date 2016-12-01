@@ -10,6 +10,7 @@ namespace TcpEchoClient
     {
         static public bool isJudge = false;
         static public bool readyToPlay = false;
+        static public bool readyToContinue = false;
         static public string username;
 
         static void Main(string[] args)
@@ -38,7 +39,7 @@ namespace TcpEchoClient
 			Console.WriteLine ("Connecting to server: " + ip + " on port: " + port);
             */
 
-            TcpClient client = new TcpClient("192.168.43.134", 1234);
+            TcpClient client = new TcpClient("192.168.43.116", 1234);
             NetworkStream stream = client.GetStream();
             StreamReader reader = new StreamReader(stream);
             StreamWriter writer = new StreamWriter(stream) { AutoFlush = true };
@@ -61,7 +62,7 @@ namespace TcpEchoClient
             Console.Write("Press [x] to exit game\n");
 
             string lineToSend = Console.ReadLine();
-            writer.WriteLine(lineToSend);
+            writer.WriteLine(lineToSend); //send p to play or x to exit
             Console.Clear();
 
             while (true)
@@ -78,17 +79,28 @@ namespace TcpEchoClient
                         if (Judge == username)
                         {
                             Console.Clear();
-                            Console.WriteLine("You are now the Judge!\nWaiting for other players to choose their answers.");
+                            writer.WriteLine("Judge Reply"); //reply to the server to stay in sync with other players. This counts as an "answer, but will be filtered out from the voting"
+                            Console.WriteLine("You are now the Judge.");
+                            Console.WriteLine("ready to continue = {0}", readyToContinue);
 
-                            /*
-                            if (reader.ReadLine() == "Ready")
+                            while (!readyToContinue)
                             {
-                                Console.WriteLine("Judge ready");
-                            } */             
+                                string serverMessage = reader.ReadLine();
+                                if (serverMessage == "Ready!")
+                                {
+                                    readyToContinue = true;
+                                    Console.WriteLine(serverMessage);
+                                }
+                                else if (serverMessage == null)
+                                {
+                                    Console.WriteLine("Error: no message recieved");
+                                }
+                            }// ready to contine = true
+                            Console.WriteLine("debug 5");
+                            Console.WriteLine("Judge ready to continue");
                         }
                         else
                         {
-
                             Console.WriteLine("Your hand of strings have been dealt \n Choose the string you find the most suitable \n for the missing part in the following statement: \n{0} \n", questionString);
                             List<string> yourHandOfCards = new List<string>(answerString.Split('.'));
 
@@ -106,10 +118,20 @@ namespace TcpEchoClient
                                     Console.Clear();
                                     validInput = true;
                                     lineToSend = yourHandOfCards[n - 1];
-                                    writer.WriteLine(lineToSend);
+                                    writer.WriteLine(lineToSend); //send answer to server
                                     Console.WriteLine("Question: {0} \nYour answer:{1}", questionString, yourHandOfCards[n - 1]);
-                                    Console.WriteLine("Waiting for all players to respond");
-
+                                    Console.WriteLine("ready to continue = {0}", readyToContinue);
+                                    while (!readyToContinue)
+                                    {
+                                        string serverMessage = reader.ReadLine();
+                                        if (serverMessage == "Ready!")
+                                        {
+                                            readyToContinue = true;
+                                            Console.WriteLine(serverMessage);
+                                        }
+                                    }// ready to contine = true
+                                    Console.Clear();
+                                    Console.WriteLine("Client ready to continue");
                                 }
                                 else
                                 {
@@ -122,19 +144,8 @@ namespace TcpEchoClient
                                     }
                                 }   //end if/else parse
                             }   //end while validInput
-                            /*
-                            while (true)
-                            {
-                                string serverMessage = reader.ReadLine();
-                                if (reader.ReadLine() == "Ready")
-                                {
-                                    Console.WriteLine("{0} ready", username);
-                                    break;
-                                }
-                            }
-                            Console.WriteLine("Broke and infinite loop, bitches");
-                            */
                         }//after if/else Judge
+                        Console.WriteLine("Answers should be displayed here");
                         break;
                     case "x":
 
@@ -142,12 +153,6 @@ namespace TcpEchoClient
                 }   //end switch statement
             }   //end while loop
         }   //end main()
-        static void displayAnswers()
-        {
-            //this should contain the code which will show the Judge the answers and let them vote
-            //it should recieve input from the server after the other players have sent their answers.
-            //Then it should send the client a respones
-        }   //end displayAnswers()
     }   //end class
 }   //end namespace
 

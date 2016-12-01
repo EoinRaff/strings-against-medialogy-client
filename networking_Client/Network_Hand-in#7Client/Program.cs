@@ -39,7 +39,7 @@ namespace TcpEchoClient
 			Console.WriteLine ("Connecting to server: " + ip + " on port: " + port);
             */
 
-            TcpClient client = new TcpClient("192.168.43.116", 1234);
+            TcpClient client = new TcpClient("192.168.43.170", 1234);
             NetworkStream stream = client.GetStream();
             StreamReader reader = new StreamReader(stream);
             StreamWriter writer = new StreamWriter(stream) { AutoFlush = true };
@@ -91,13 +91,13 @@ namespace TcpEchoClient
                                     readyToContinue = true;
                                     Console.WriteLine(serverMessage);
                                 }
-                                else if (serverMessage == null)
-                                {
-                                    Console.WriteLine("Error: no message recieved");
-                                }
+                                //else if (serverMessage == null)
+                                //{
+                                //    Console.WriteLine("Error: no message recieved");
+                                //}
                             }// ready to contine = true
-                            Console.WriteLine("debug 5");
-                            Console.WriteLine("Judge ready to continue");
+                            //Console.WriteLine("debug 5");
+                            //Console.WriteLine("Judge ready to continue");
                         }
                         else
                         {
@@ -155,7 +155,7 @@ namespace TcpEchoClient
                             Console.WriteLine("{0}: {1}", i + 1, judgeAnswersList[i]);
                         }
 
-                        //readyToContinue = false;
+                        readyToContinue = false;
 
                         if (username == Judge)
                         {
@@ -171,17 +171,6 @@ namespace TcpEchoClient
                                     lineToSend = judgeAnswersList[n - 1];
                                     writer.WriteLine(lineToSend); //send answer to server
                                     Console.WriteLine("Question: {0} \nThe winner:{1}", questionString, judgeAnswersList[n - 1]);
-                                    //while (!readyToContinue)
-                                    //{
-                                    //    string serverMessage = reader.ReadLine();
-                                    //    if (serverMessage == "Ready!")
-                                    //    {
-                                    //        readyToContinue = true;
-                                    //        Console.WriteLine(serverMessage);
-                                    //    }
-                                    //}// ready to contine = true
-                                    Console.Clear();
-                                    Console.WriteLine("Client ready to continue");
                                 }
                                 else
                                 {
@@ -197,8 +186,24 @@ namespace TcpEchoClient
                         } // end if judge
                         else
                         {
-                            writer.WriteLine("waiting on judge");
+                            writer.WriteLine("waiting");
+
+                            while (!readyToContinue)
+                            {
+                                string serverMessage = reader.ReadLine();
+                                if (serverMessage == "Ready!")
+                                {
+                                    readyToContinue = true;
+                                    Console.WriteLine(serverMessage);
+                                }
+                            }
+                            Console.WriteLine(reader.ReadLine());
                         }
+                        Console.WriteLine("VICTORY!");
+                        Console.WriteLine(reader.ReadLine());
+                        //string winner = reader.ReadLine();
+                        //Console.WriteLine("The winner is {0}!!!", winner);
+
 
 
 

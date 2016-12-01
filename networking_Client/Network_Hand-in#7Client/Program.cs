@@ -12,7 +12,7 @@ namespace TcpEchoClient
         static public bool readyToPlay = false;
         static public bool readyToContinue = false;
         static public string username;
-        static public List<string> hand;
+        static public List<string> hand = new List<string>();
 
         static void Main(string[] args)
         {
@@ -29,8 +29,9 @@ namespace TcpEchoClient
             username = Console.ReadLine();
 
             /*
-             * outcommented for quick testing
              * 
+             * making testing easier
+            
             Console.WriteLine ("Enter server IP adress");
             ip = Console.ReadLine ();
 
@@ -61,23 +62,41 @@ namespace TcpEchoClient
 
             while (true)
             {
+                setToDefaults();
 
                 Console.WriteLine("Hello! Welcome to Strings Against Medialogy.");
+                Console.WriteLine("Hand: " + hand.Count);
 
-                Console.Write("Press [p] to play game\n");
+                Console.Write("Press any key to play game\n");
                 Console.Write("Press [x] to exit game\n");
 
                 string lineToSend = Console.ReadLine();
+                if (lineToSend != "x")
+                {
+                    lineToSend = "p";
+                }
                 writer.WriteLine(lineToSend); //send p to play or x to exit
-                Console.Clear();
+
+                Console.WriteLine("Hand: " + hand.Count);
+
+                Console.WriteLine("you need {0} cards", askForCards());
+                writer.WriteLine(askForCards());
+                Console.WriteLine("Hand: " + hand.Count);
+
+
                 switch (lineToSend)
                 {
 
-                    case "p":
+                    default:
                         string Judge = reader.ReadLine();
                         string questionString = reader.ReadLine();
                         string answerString = reader.ReadLine();
-                        hand = new List<string>(answerString.Split('.'));
+                        List<string> tempHand = new List<string>(answerString.Split('.'));
+                        for (int i = 0; i < tempHand.Count -1; i++)
+                        {
+                            Console.WriteLine("New card: {0}", tempHand[i]);
+                            hand.Add(tempHand[i]);
+                        }
 
                         Console.WriteLine("The Judge this turn is: {0}", Judge);
                         if (Judge == username)
@@ -86,12 +105,10 @@ namespace TcpEchoClient
                             writer.WriteLine("Judge Reply"); //reply to the server to stay in sync with other players. This counts as an "answer, but will be filtered out from the voting"
                             Console.WriteLine("You are now the Judge.");
                             Console.WriteLine("You can't play a card this round, but here is your hand anyway");
-                            for (int i = 0; i < 5; i++)
+                            for (int i = 0; i < hand.Count; i++)
                             {
                                 Console.WriteLine("{0}: {1}", i + 1, hand[i]);
                             }
-                            Console.WriteLine("ready to continue = {0}", readyToContinue);
-
                             while (!readyToContinue)
                             {
                                 string serverMessage = reader.ReadLine();
@@ -100,19 +117,14 @@ namespace TcpEchoClient
                                     readyToContinue = true;
                                     Console.WriteLine(serverMessage);
                                 }
-                                //else if (serverMessage == null)
-                                //{
-                                //    Console.WriteLine("Error: no message recieved");
-                                //}
                             }// ready to contine = true
-                            //Console.WriteLine("debug 5");
-                            //Console.WriteLine("Judge ready to continue");
+
                         }
                         else
                         {
                             Console.WriteLine("Your hand of strings have been dealt \n Choose the string you find the most suitable \n for the missing part in the following statement: \n{0} \n", questionString);
 
-                            for (int i = 0; i < 5; i++)
+                            for (int i = 0; i < hand.Count; i++)
                             {
                                 Console.WriteLine("{0}: {1}", i + 1, hand[i]);
                             }
@@ -125,9 +137,14 @@ namespace TcpEchoClient
                                     Console.Clear();
                                     validInput = true;
                                     lineToSend = hand[n - 1];
+                                    Console.WriteLine("Remaining cards:");
+                                    for (int i = 0; i < hand.Count - 1; i++)
+                                    {
+                                        Console.WriteLine("{0}: {1}", i + 1, hand[i]);
+                                    }
                                     writer.WriteLine(lineToSend); //send answer to server
                                     Console.WriteLine("Question: {0} \nYour answer:{1}", questionString, hand[n - 1]);
-                                    Console.WriteLine("ready to continue = {0}", readyToContinue);
+                                    hand.RemoveAt(n - 1);
                                     while (!readyToContinue)
                                     {
                                         string serverMessage = reader.ReadLine();
@@ -213,26 +230,25 @@ namespace TcpEchoClient
                         }
                         Console.WriteLine(reader.ReadLine());
                         Console.WriteLine("Press any key to continue"); //this is a bad mechanic and needs to be fixed
-                        Console.ReadKey();  
+                        Console.ReadKey();
                         writer.WriteLine("{0} wants to continue", username);
                         Console.Clear();
                         Console.WriteLine("Waiting for other players to restart");
-                        restart();
-                        break;
-
-
                         break;
                     case "x":
                         return;
                 }   //end switch statement
             }   //end while loop
         }   //end main()
-        static public void restart()
+        static public void setToDefaults()
         {
             isJudge = false;
             readyToPlay = false;
             readyToContinue = false;
-
+        }
+        static int askForCards()
+        {
+            return 5 - (hand.Count);
         }
     }   //end class
 }   //end namespace

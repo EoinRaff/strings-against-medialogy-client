@@ -64,7 +64,6 @@ namespace TcpEchoClient
                 setToDefaults();
 
                 Console.WriteLine("Hello! Welcome to Strings Against Medialogy.");
-                Console.WriteLine("Hand: " + hand.Count);
 
                 Console.Write("Press any key to play game\n");
                 Console.Write("Press [x] to exit game\n");
@@ -76,11 +75,9 @@ namespace TcpEchoClient
                 }
                 writer.WriteLine(lineToSend); //send p to play or x to exit
 
-                Console.WriteLine("Hand: " + hand.Count);
 
                 Console.WriteLine("you need {0} cards", askForCards());
                 writer.WriteLine(askForCards());
-                Console.WriteLine("Hand: " + hand.Count);
 
 
                 switch (lineToSend)
@@ -103,11 +100,15 @@ namespace TcpEchoClient
                             Console.Clear();
                             writer.WriteLine("Judge Reply"); //reply to the server to stay in sync with other players. This counts as an "answer, but will be filtered out from the voting"
                             Console.WriteLine("You are now the Judge.");
-                            Console.WriteLine("You can't play a card this round, but here is your hand anyway");
+                            Console.WriteLine("You can't play a card this round, but here is your hand anyway:\n");
                             for (int i = 0; i < hand.Count; i++)
                             {
                                 Console.WriteLine("{0}: {1}", i + 1, hand[i]);
                             }
+
+						Console.WriteLine ("\nWaiting for players...");
+					
+
                             while (!readyToContinue)
                             {
                                 string serverMessage = reader.ReadLine();
@@ -119,14 +120,20 @@ namespace TcpEchoClient
                             }// ready to contine = true
 
                         }
+
+
+
+
                         else
                         {
-                            Console.WriteLine("Your hand of strings have been dealt \n Choose the string you find the most suitable \n for the missing part in the following statement: \n{0} \n", questionString);
+                            Console.WriteLine("Your hand of strings have been dealt \nChoose the string you find the most suitable \nfor the missing part in the following statement: \n\n{0} \n", questionString);
 
                             for (int i = 0; i < hand.Count; i++)
                             {
                                 Console.WriteLine("{0}: {1}", i + 1, hand[i]);
                             }
+
+						Console.WriteLine ("Choose a number and hit enter to play your card");
                             int n;
                             bool validInput = false;
                             while (!validInput)
@@ -144,6 +151,7 @@ namespace TcpEchoClient
                                     writer.WriteLine(lineToSend); //send answer to server
                                     Console.WriteLine("Question: {0} \nYour answer:{1}", questionString, hand[n - 1]);
                                     hand.RemoveAt(n - 1);
+								Console.WriteLine ("Waiting on the other players to choose their card");
                                     while (!readyToContinue)
                                     {
                                         string serverMessage = reader.ReadLine();
@@ -153,8 +161,7 @@ namespace TcpEchoClient
                                             Console.WriteLine(serverMessage);
                                         }
                                     }// ready to contine = true
-                                    Console.Clear();
-                                    Console.WriteLine("Client ready to continue");
+
                                 }
                                 else
                                 {
@@ -228,11 +235,10 @@ namespace TcpEchoClient
                             }
                         }
                         Console.WriteLine(reader.ReadLine());
-                        Console.WriteLine("Press any key to continue"); //this is a bad mechanic and needs to be fixed
+                        Console.WriteLine("Press any key to continue"); 
                         Console.ReadKey();
                         writer.WriteLine("{0} wants to continue", username);
                         Console.Clear();
-                        Console.WriteLine("Waiting for other players to restart");
                         break;
                     case "x":
                         return;

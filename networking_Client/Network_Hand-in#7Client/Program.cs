@@ -28,9 +28,8 @@ namespace TcpEchoClient
             Console.WriteLine("Select your username");
             username = Console.ReadLine();
 
-            /*
-             * 
-             * making testing easier
+          
+
             
             Console.WriteLine ("Enter server IP adress");
             ip = Console.ReadLine ();
@@ -40,9 +39,9 @@ namespace TcpEchoClient
             port = Int32.Parse (selection);
 
             Console.WriteLine ("Connecting to server: " + ip + " on port: " + port);
-            */
+          
 
-            TcpClient client = new TcpClient("192.168.43.134", 1234);
+			TcpClient client = new TcpClient(ip, port);
             NetworkStream stream = client.GetStream();
             StreamReader reader = new StreamReader(stream);
             StreamWriter writer = new StreamWriter(stream) { AutoFlush = true };
